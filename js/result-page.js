@@ -64,6 +64,14 @@ H5P.ArithmeticQuiz.ResultPage = (function ($, UI) {
       }
     }).appendTo(this.$feedbackContainer);
 
+    UI.createButton({
+      text: t.submitAnswerButton,
+      'class': 'mq-control-button',
+      click: function () {
+        self.triggerXAPIScored(this.score, this.maxScore, 'submitted-curriki');
+      }
+    }).appendTo(this.$feedbackContainer);
+
     this.$resultAnnouncer = $('<div>', {
       'class': 'h5p-baq-live-feedback',
       'aria-live': 'assertive',
