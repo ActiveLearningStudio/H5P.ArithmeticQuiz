@@ -56,7 +56,8 @@ H5P.ArithmeticQuiz.GamePage = (function ($, UI, QuizType) {
 
     // Shuffle quizzes:
     self.quizzes = self.questionsGenerator.get();
-
+    console.log(self.quizzes);
+    localStorage.setItem("quizzes",  JSON.stringify(self.quizzes));
     var numQuestions = self.quizzes.length;
     for (var i = 0; i < numQuestions; i++) {
       self.slider.addSlide(self.createSlide(self.quizzes[i], i));

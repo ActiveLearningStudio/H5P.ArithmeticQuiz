@@ -64,11 +64,31 @@ H5P.ArithmeticQuiz.ResultPage = (function ($, UI) {
       }
     }).appendTo(this.$feedbackContainer);
 
+    
+
+
     UI.createButton({
-      text: t.submitAnswerButton,
+      text: t.viewSummaryButton,
       'class': 'mq-control-button',
       click: function () {
-        self.triggerXAPIScored(this.score, this.maxScore, 'submitted-curriki');
+        var confirmationDialog = new H5P.ConfirmationDialog({
+          headerText: 'Arithmatic Quiz Summary',
+          dialogText:showSummary(),
+          cancelText: 'Cancel',
+          confirmText: "Submit Answers"
+        });
+
+        confirmationDialog.on('confirmed', function () {
+          //self.triggerXAPIScored(self.getScore(), self.maxScore(), 'submitted-curriki');
+          self.triggerXAPIScored(0, 1, 'submitted-curriki');
+          //confirmationDialog.hide();
+          H5P.jQuery('.mq-control-button').hide();
+          
+        });
+        
+       
+        confirmationDialog.appendTo(parent.document.body);
+        confirmationDialog.show();
       }
     }).appendTo(this.$feedbackContainer);
 
@@ -94,6 +114,33 @@ H5P.ArithmeticQuiz.ResultPage = (function ($, UI) {
     this.getReadableScore = function (score) {
       return t.score + ' ' + score + '/' + this.maxScore;
     };
+
+
+
+    /**
+     * Get score as a string
+     * @param {Number} score Current score
+     * @return {String} Score string
+     */
+     function showSummary() {
+      var quizzes = JSON.parse(localStorage.getItem("quizzes"));
+      
+      var table_content = '<tbody>';
+      for (var m =0; m < quizzes.length; m++){
+        var quiz = quizzes[m];
+        console.log(quiz.textual);
+        
+        
+        table_content += '<tr>';
+        table_content += '<td>'+quiz.textual+'</td>';
+        //table_content += '<td>'+self.clozes[m].getUserAnswer()+'</td>';
+        table_content += '<td>True</td>';
+        table_content += '</tr>';
+        
+      }
+      var summary_html = '<div class="custom-summary-section"><div class="h5p-summary-table-pages"><table class="h5p-score-table-custom" style="min-height:100px;width:100%"><thead><tr><th>Question</th><th>Result</th></tr></thead>'+table_content+'</table></div></div>';
+      return summary_html;
+    }
 
     /**
      * Get readable time
