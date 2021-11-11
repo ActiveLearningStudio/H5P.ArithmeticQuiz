@@ -83,11 +83,12 @@ H5P.ArithmeticQuiz.GamePage = (function ($, UI, QuizType) {
     self.slider.on('last-slide', function () {
       self.resultPage.update(self.score, self.timer.pause());
       self.$gamepage.addClass('result-page');
+      localStorage.setItem('userInputwa', JSON.stringify(self.userInputwa));
       self.trigger('last-slide', {
         score: self.score,
         numQuestions: numQuestions
       });
-      localStorage.setItem('userInputwa', JSON.stringify(self.userInputwa));
+      
     });
 
     self.slider.on('first-slide', function () {
