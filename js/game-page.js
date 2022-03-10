@@ -86,7 +86,8 @@
       localStorage.setItem('userInputwa', JSON.stringify(self.userInputwa));
       self.trigger('last-slide', {
         score: self.score,
-        numQuestions: numQuestions
+        numQuestions: numQuestions,
+        duration: self.timer.getTime()
       });
       
     });
